@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+                git credentialsId: 'github-token', url: 'https://github.com/akki90/Hackers_Blog.git'
             }
         }
 
