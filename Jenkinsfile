@@ -27,8 +27,15 @@ pipeline {
         stage('Snyk Scan') {
             steps {
                 sh 'snyk auth $SNYK_TOKEN'
-                sh 'snyk test'          // For scanning known vulnerabilities
-                sh 'snyk code test || true'  // For static code analysis (optional)
+                sh 'snyk test'                // For scanning known vulnerabilities
+                sh 'snyk code test || true'   // For static code analysis (optional)
+            }
+        }
+
+        stage('Snyk Monitor') {
+            steps {
+                sh 'snyk auth $SNYK_TOKEN'
+                sh 'snyk monitor'
             }
         }
     }
