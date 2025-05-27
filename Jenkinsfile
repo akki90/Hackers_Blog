@@ -1,30 +1,34 @@
 pipeline {
     agent any
 
+    environment {
+        SNYK_TOKEN = credentials('snyk-token') // Load Snyk token from Jenkins credentials
+    }
+
     stages {
-        stage('Clone') {
+        stage('Checkout Code') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/akki90/Hackers_Blog.git'
+                git credentialsId: 'github-token', url: 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Building your project...'
-                // insert your build command here, e.g., npm build or mvn package
+                sh 'npm install'
             }
         }
 
-        stage('Test') {
+        stage('Run Tests') {
             steps {
-                echo 'Running tests...'
-                // insert your test command here, e.g., npm test or pytest
+                sh 'npm test'
             }
         }
 
         stage('Snyk Scan') {
             steps {
-                snykSecurityScan failOnIssues: true
+                sh 'snyk auth $SNYK_TOKEN'
+                sh 'snyk test'          // For scanning known vulnerabilities
+                sh 'snyk code test || true'  // For static code analysis (optional)
             }
         }
     }
