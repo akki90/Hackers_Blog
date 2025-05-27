@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+                git credentialsId: 'github-Personal-access-token', url: 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
             }
         }
 
